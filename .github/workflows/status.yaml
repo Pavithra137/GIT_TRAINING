@@ -29,3 +29,4 @@ jobs:
       # Status check: cancelled()
       - name: Cancelled check
         if: cancelled()
+        run: echo "one job is cancelled"
