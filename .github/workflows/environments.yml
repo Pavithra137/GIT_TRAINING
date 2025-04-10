@@ -1,0 +1,25 @@
+name: Environments and Variables
+run-name: ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+       environment: 
+        description: 'Type of environment'
+        type: environment
+        required: true
+        default: 'dev'
+      
+jobs:
+  environment:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: secrets and variables
+        run: |
+          echo "secret is ${{ secrets.PASSWORD }}"
+          echo "variables is ${{ vars.USER_NAME}}"
+  
