@@ -1,0 +1,21 @@
+name: Functions
+on:
+  workflow_dispatch:
+jobs:
+  Function:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: functions
+        run: |
+          echo "${{ format('Deploying {0} to {1}', 'MyApp', 'us-west-1') }}"
+          echo "${{ contains('dev,qa,prod', 'prod') }}"
+          echo "${{ startsWith(github.ref, 'refs/heads/main') }}"
+          echo "${{ endsWith(github.ref, '/main') }}"
+          echo "${{ join(fromJson('["app1","app2"]'), ', ') }}"
+          echo '${{ toJson(github.event.head_commit) }}'
+          echo "${{ hashFiles('README.md') }}"
+    
+  
