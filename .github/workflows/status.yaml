@@ -1,0 +1,31 @@
+name: Status
+on:
+  workflow_dispatch:
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Simulate failure
+        run: exit 1
+
+      # Status check: success()
+      - name: Success status check
+        if: success()
+        run: echo "Success! All steps ran fine."
+
+      # Status check: failure()
+      - name: Failure status check
+        if: failure()
+        run: echo "Oops! One or more steps failed."
+
+      # Status check: always()
+      - name: Always runs
+        if: always()
+        run: echo "Cleanup or notify always runs."
+
+      # Status check: cancelled()
+      - name: Cancelled check
+        if: cancelled()
