@@ -56,7 +56,7 @@ jobs:
   Reusable_workflow:
      uses: ./.github/workflows/workflow_call.yaml
      with: 
-       Token: ${{ secrets.TOKEN }}
-     secrets: inherit
+       Token: 'dfghj'
+  
       
   
