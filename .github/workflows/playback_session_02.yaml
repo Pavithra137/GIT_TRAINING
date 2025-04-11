@@ -17,6 +17,10 @@ on:
       - v1
     paths:
       - '**/**/*.yaml'
+  workflow_run:
+    workflows: ['Workflow_run_example']
+    types:
+      - completed
       
 jobs:
   environment:
@@ -57,6 +61,8 @@ jobs:
      uses: ./.github/workflows/workflow_call.yaml
      secrets: 
        Token: ${{ secrets.TOKEN }}
+
+  
   
       
   
