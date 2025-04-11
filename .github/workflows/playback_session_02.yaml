@@ -55,7 +55,7 @@ jobs:
 
   Reusable_workflow:
      uses: ./.github/workflows/workflow_call.yaml
-     with: 
+     secrets: 
        Token: ${{ secrets.TOKEN }}
   
       
