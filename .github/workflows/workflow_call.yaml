@@ -2,10 +2,9 @@ name: Reuseable-workflow
 
 on:
   workflow_call:
-    inputs: 
+    secrets: 
       Token:
         description: 'Authentication_token'
-        type: string   
 
 jobs:
   reusable-workflow:
@@ -13,5 +12,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+        with:
+          token: ${{ secrets.TOKEN }}
       - name: echo message
         run: echo "This workflow is calling another workflow"
