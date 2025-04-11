@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.2.2
 
+      - name: Authenticate GH CLI
+        run: echo "${{ secrets.TOKEN }}" | gh auth login --with-token
+
       - name: Create an Issue
         run: |
           gh issue create \
