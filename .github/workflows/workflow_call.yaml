@@ -1,0 +1,17 @@
+name: Reuseable-workflow
+
+on:
+  workflow_call:
+    inputs: 
+      Token:
+        description: 'Authentication_token'
+        type: string   
+
+jobs:
+  reusable-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+        with:
+          token: ${{ inputs.Token }}
