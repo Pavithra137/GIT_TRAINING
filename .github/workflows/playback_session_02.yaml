@@ -22,6 +22,7 @@ jobs:
   environment:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
+    if: ${{ inputs.environment != '' }}
     steps:
       - name: checkout
         uses: actions/checkout@v2
