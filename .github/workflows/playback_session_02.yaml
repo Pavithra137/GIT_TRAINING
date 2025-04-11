@@ -57,6 +57,6 @@ jobs:
      uses: ./.github/workflows/workflow_call.yaml
      with: 
        Token: ${{ secrets.TOKEN }}
-     
+     secrets: inherit
       
   
