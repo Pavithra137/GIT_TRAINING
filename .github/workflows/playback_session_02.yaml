@@ -1,0 +1,47 @@
+name: playback session 02
+run-name: ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+       environment: 
+        description: 'Type of environment'
+        type: environment
+        required: true
+        default: 'dev'
+  push:
+    branches:
+      - main
+      - feature/*
+    tags:
+      - v1
+    paths:
+      - '**/**/*.yaml'
+      
+jobs:
+  environment:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: secrets and variables
+        run: |
+          echo "secret is ${{ secrets.PASSWORD }}"
+          echo "variables is ${{ vars.USER_NAME}}"
+
+  Events:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: branch condition
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "step runs only when the new push added to ${{ github.ref }}"
+      - name: Event conditions
+        if: github.event == 'push'
+        run: echo "step runs only when the ${{ github.event }} event occurs"
+
+  
+  
