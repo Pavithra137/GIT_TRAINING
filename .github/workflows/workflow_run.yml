@@ -1,0 +1,13 @@
+name: Workflow_run_example
+
+on: 
+  push:
+
+jobs:
+  Workflow_run_example:
+    runs-on: ubuntu
+    steps:
+      - name: workflow_run_example
+        run: |
+          echo "workflow run example"
+  
