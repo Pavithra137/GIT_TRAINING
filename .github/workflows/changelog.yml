@@ -1,0 +1,34 @@
+name: Generate Changelog
+ 
+on:
+  push:
+    branches:
+      - feature/changelog
+ 
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+ 
+      - name: Set up Git
+        run: |
+          git fetch --tags
+ 
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get latest tag (or fallback to first commit)
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo $(git rev-list --max-parents=0 HEAD))
+          echo "Generating changelog since $TAG"
+          
+          git log $TAG..HEAD --pretty=format:"- %s" > CHANGELOG.md
+          cat CHANGELOG.md
+ 
+      - name: Upload changelog as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG.md
