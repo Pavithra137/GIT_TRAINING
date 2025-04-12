@@ -1,4 +1,4 @@
-name: Generate Changelog
+name: Append Changelog on Main Push
  
 on:
   push:
@@ -12,22 +12,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Required to access full Git history
  
-      - name: Set up Git
+      - name: Get latest commit messages
+        id: get_commits
         run: |
-          git fetch --tags
- 
-      - name: Generate changelog
-        id: changelog
+          echo "Getting commit messages in this push..."
+          git log -n 10 --pretty=format:"- %s (%an)" > new_changes.md
+          cat new_changes.md
+           
+      - name: Append to CHANGELOG.md
         run: |
-          # Get latest tag (or fallback to first commit)
-          TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo $(git rev-list --max-parents=0 HEAD))
-          echo "Generating changelog since $TAG"
-          
-          git log $TAG..HEAD --pretty=format:"- %s" > CHANGELOG.md
+          echo "## $(date +'%Y-%m-%d %H:%M:%S')" > temp_header.md
+          cat temp_header.md new_changes.md >> CHANGELOG.md
           cat CHANGELOG.md
  
-      - name: Upload changelog as artifact
+      - name: Upload changelog artifact
         uses: actions/upload-artifact@v4
         with:
           name: changelog
