@@ -39,4 +39,8 @@ jobs:
         uses: janheinrichmerker/action-github-changelog-generator@v2.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }} 
+          output: github_changelog_generator --output My_change_log_name.MD >> $GITHUB_OUTPUT
+      - name: changelog file
+        run: cat My_change_log_name.MD
+      
    
