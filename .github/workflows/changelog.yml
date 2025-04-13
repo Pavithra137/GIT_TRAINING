@@ -10,26 +10,45 @@ jobs:
     runs-on: ubuntu-latest
  
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Required to access full Git history
+      # - name: Checkout code
+      #   uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 0  # Required to access full Git history
  
-      - name: Get latest commit messages
-        id: get_commits
-        run: |
-          echo "Getting commit messages in this push..."
-          git log -n 10 --pretty=format:"- %s (%an)" > new_changes.md
-          cat new_changes.md
+      # - name: Get latest commit messages
+      #   id: get_commits
+      #   run: |
+      #     echo "Getting commit messages in this push..."
+      #     git log -n 10 --pretty=format:"- %s (%an)" > new_changes.md
+      #     cat new_changes.md
            
-      - name: Append to CHANGELOG.md
-        run: |
-          echo "## $(date +'%Y-%m-%d %H:%M:%S')" > temp_header.md
-          cat temp_header.md new_changes.md >> CHANGELOG.md
-          cat CHANGELOG.md
+      # - name: Append to CHANGELOG.md
+      #   run: |
+      #     echo "## $(date +'%Y-%m-%d %H:%M:%S')" > temp_header.md
+      #     cat temp_header.md new_changes.md >> CHANGELOG.md
+      #     cat CHANGELOG.md
  
-      - name: Upload changelog artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: changelog
-          path: CHANGELOG.md
+      # - name: Upload changelog artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: changelog
+      #     path: CHANGELOG.md
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Generate changelog
+      uses: github-changelog-generator/github-changelog-generator-action@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Commit and push changelog
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add CHANGELOG.md
+        git commit -m 'Update changelog'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   
