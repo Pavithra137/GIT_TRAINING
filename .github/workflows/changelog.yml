@@ -13,7 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Required to access full Git history
+          fetch-depth: 0 
  
       - name: Get latest commit messages
         id: get_commits
