@@ -1,0 +1,50 @@
+name: Append Changelog on Main Push
+ 
+on:
+  push:
+    branches:
+      - feature/changelog
+ 
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 
+ 
+      - name: Get latest commit messages
+        id: get_commits
+        run: |
+          echo "Getting commit messages in this push..."
+          git log -n 10 --pretty=format:"- %s (%an)" > new_changes.md
+          cat new_changes.md
+           
+      - name: Append to CHANGELOG.md
+        run: |
+          echo "## $(date +'%Y-%m-%d %H:%M:%S')" > temp_header.md
+          cat temp_header.md new_changes.md >> CHANGELOG.md
+          cat CHANGELOG.md
+ 
+      - name: Upload changelog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG.md
+
+
+
+
+
+
+      # - name: "✏️ Generate release changelog"
+      #   uses: janheinrichmerker/action-github-changelog-generator@v2.3
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }} 
+      #     output: github_changelog_generator --output My_change_log_name.MD >> $GITHUB_OUTPUT
+      # - name: changelog file
+      #   run: cat My_change_log_name.MD
+      
+   
